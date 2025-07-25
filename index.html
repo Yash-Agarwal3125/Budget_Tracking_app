@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Sign Up</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <!-- Login Form -->
+            <div id="login-form" class="form-container active">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Please sign in to your account</p>
+                </div>
+                
+                <form id="loginFormElement" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" id="login-email" name="email" class="form-control" placeholder="Enter your email" required>
+                        <div class="error-message" id="login-email-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input type="password" id="login-password" name="password" class="form-control" placeholder="Enter your password" required>
+                        <div class="error-message" id="login-password-error"></div>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn--primary btn--full-width">Sign In</button>
+                    
+                    <div class="success-message" id="login-success"></div>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="#" id="show-signup" class="link">Create Account</a></p>
+                </div>
+            </div>
+            
+            <!-- Sign Up Form -->
+            <div id="signup-form" class="form-container">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Please fill in your information</p>
+                </div>
+                
+                <form id="signupFormElement" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-name" class="form-label">Full Name</label>
+                        <input type="text" id="signup-name" name="name" class="form-control" placeholder="Enter your full name" required>
+                        <div class="error-message" id="signup-name-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-email" class="form-label">Email</label>
+                        <input type="email" id="signup-email" name="email" class="form-control" placeholder="Enter your email" required>
+                        <div class="error-message" id="signup-email-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password" class="form-label">Password</label>
+                        <input type="password" id="signup-password" name="password" class="form-control" placeholder="Enter your password" required>
+                        <div class="error-message" id="signup-password-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirmPassword" class="form-control" placeholder="Confirm your password" required>
+                        <div class="error-message" id="confirm-password-error"></div>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms-checkbox" name="terms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="#" class="link">Terms and Conditions</a>
+                        </label>
+                        <div class="error-message" id="terms-error"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn--primary btn--full-width">Create Account</button>
+                    
+                    <div class="success-message" id="signup-success"></div>
+                </form>
+                
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" id="show-login" class="link">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>
