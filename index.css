@@ -7,7 +7,9 @@
 }
 
 body {
-    background-image: linear-gradient(to right, #2d0e33,#0390a9);
+    background-image: url("2.png");
+    background-size:cover;
+    /* background-image: linear-gradient(to right, #e45cff,#7a03a9); */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,12 +18,16 @@ body {
 
 /* Container */
 .container {
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     border-radius: 12px;
-    box-shadow: 0 0 20px rgba(57, 36, 103, 0.2);
+    box-shadow: 0 0 20px rgba(70, 103, 36, 0.15);
     overflow: hidden;
-    width: 380px;
+    width: 500px;
     max-width: 100%;
+    /* margin-left: 3cm; */
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 /* Auth Card */
@@ -43,6 +49,8 @@ body {
     color: #392467;
     margin-bottom: 10px;
     font-size: 24px;
+    justify-content: center;
+    text-align: center;
 }
 
 .form-header p {
