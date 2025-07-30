@@ -12,7 +12,7 @@ BACKEND TASKS
 === PHASE 1: DATABASE & AUTHENTICATION ===
 [P1] Task: Set up the database in MySQL Workbench.
 - Description: Use the final SQL script to create the 'Users' and 'Transactions' tables.
-- Status: TO DO
+- Status: DONE
 
 [P1] Task: Set up the Python backend project structure.
 - Description: Choose a framework (Flask is recommended for speed) and create the initial file structure (app.py, etc.).
@@ -48,11 +48,11 @@ FRONTEND TASKS
 ###################################################
 
 === PHASE 1: CONNECTING AUTH & BUILDING THE DASHBOARD ===
-[P1] Task: Connect Login/Sign-in pages to the backend APIs.
+[P2] Task: Connect Login/Sign-in pages to the backend APIs.
 - Description: Use JavaScript fetch() to send user input from the existing HTML forms to the /login and /register endpoints. Handle success and error messages.
 - Status: TO DO
 
-[P2] Task: Create the main Dashboard page.
+[P1] Task: Create the main Dashboard page.
 - Description: Design and build the HTML/CSS for the main page a user sees after logging in. It should include a summary section, a transaction list area, and an "Add Transaction" button.
 - Status: TO DO
 
