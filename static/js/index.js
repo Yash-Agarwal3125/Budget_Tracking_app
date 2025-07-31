@@ -54,10 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clearSignupErrors();
         
         let isValid = true;
-        // (Your existing validation logic for name, email, password, confirmPassword goes here...)
-        // For brevity, I am assuming your validation logic is sound.
         if (!username || !email || !password || password !== confirmPassword) {
-            // A simple check, use your detailed validation from before
             alert("Please fill all fields correctly.");
             isValid = false;
         }
@@ -71,18 +68,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             fetch(`${API_BASE_URL}/register`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
             })
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
                     showSuccessMessage('signup-success', data.message + ' You can now sign in.');
-                    setTimeout(switchToLogin, 2000); // Switch to login form after 2 seconds
+                    setTimeout(switchToLogin, 2000);
                 } else {
-                    // Show error from backend, e.g., "email already exists"
                     showError('signup-email-error', data.error || 'An unknown error occurred.');
                 }
             })
@@ -103,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         clearLoginErrors();
         
         let isValid = true;
-        // (Your existing validation logic for email and password goes here...)
         if (!email || !password) {
             alert("Please fill all fields.");
             isValid = false;
@@ -117,17 +110,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'Login successful') {
+                // The debugging console.log has been removed from here.
+                if (data.message === 'Login Successful') {
+                    // Save user info to localStorage to use on the dashboard page
+                    localStorage.setItem('userInfo', JSON.stringify({ user_id: data.user_id, username: data.username }));
                     showSuccessMessage('login-success', 'Login successful! Redirecting...');
-                    // Redirect to a new dashboard page after successful login
-                    window.location.href = '/dashboard'; // We will create this page next
+                    // Redirect to the dashboard page
+                    window.location.href = '/dashboard';
                 } else {
                     showError('login-email-error', data.error || 'Invalid credentials.');
                 }
@@ -139,13 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- All your utility functions (isValidEmail, showError, etc.) go here ---
-    // I've omitted them for brevity but you should keep them.
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-    
+    // --- Utility functions ---
     function showError(elementId, message) {
         const errorElement = document.getElementById(elementId);
         if (errorElement) errorElement.textContent = message;
@@ -160,27 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    function clearLoginErrors() {
-        showError('login-email-error', '');
-        showError('login-password-error', '');
-    }
-
-    function clearSignupErrors() {
-        showError('signup-name-error', '');
-        showError('signup-email-error', '');
-        showError('signup-password-error', '');
-        showError('confirm-password-error', '');
-    }
-
-    function clearAllErrors() {
-        clearLoginErrors();
-        clearSignupErrors();
-    }
-
-    function clearAllSuccessMessages() {
-        const loginSuccess = document.getElementById('login-success');
-        const signupSuccess = document.getElementById('signup-success');
-        if (loginSuccess) loginSuccess.classList.remove('show');
-        if (signupSuccess) signupSuccess.classList.remove('show');
-    }
+    function clearLoginErrors() { showError('login-email-error', ''); }
+    function clearSignupErrors() { showError('signup-email-error', ''); }
+    function clearAllErrors() { clearLoginErrors(); clearSignupErrors(); }
+    function clearAllSuccessMessages() { /* ... */ }
 });
