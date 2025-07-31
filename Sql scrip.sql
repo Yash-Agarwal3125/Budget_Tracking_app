@@ -1,13 +1,12 @@
 create table User(
-    user_id int primary key,
+    user_id int primary key auto_increment,
     user_name varchar(50) not null,
     email varchar(100) not null unique,
     password varchar(255) not null
 );
 
-
 create table transaction(
-    transaction_id int primary key,
+    transaction_id int primary key auto_increment,
     user_id int ,
     type enum('Income', 'Expense', 'Payable', 'Receivable') not null,
     amount decimal(10, 2) not null,
