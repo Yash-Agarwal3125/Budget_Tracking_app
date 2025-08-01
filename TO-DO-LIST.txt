@@ -16,15 +16,15 @@ BACKEND TASKS
 
 [P1] Task: Set up the Python backend project structure.
 - Description: Choose a framework (Flask is recommended for speed) and create the initial file structure (app.py, etc.).
-- Status: TO DO
+- Status: DONE
 
 [P1] Task: Create the User Registration API endpoint (/register).
 - Description: Receives user data (username, email, password), hashes the password, and saves the new user to the database.
-- Status: TO DO
+- Status: DONE
 
 [P1] Task: Create the User Login API endpoint (/login).
 - Description: Receives user credentials, verifies them against the database, and returns a success/failure response (e.g., a token).
-- Status: TO DO
+- Status: DONE
 
 === PHASE 2: CORE TRANSACTION LOGIC ===
 [P2] Task: Create the "Add Transaction" API endpoint (/transactions).
@@ -50,7 +50,7 @@ FRONTEND TASKS
 === PHASE 1: CONNECTING AUTH & BUILDING THE DASHBOARD ===
 [P2] Task: Connect Login/Sign-in pages to the backend APIs.
 - Description: Use JavaScript fetch() to send user input from the existing HTML forms to the /login and /register endpoints. Handle success and error messages.
-- Status: TO DO
+- Status: DONE
 
 [P1] Task: Create the main Dashboard page.
 - Description: Design and build the HTML/CSS for the main page a user sees after logging in. It should include a summary section, a transaction list area, and an "Add Transaction" button.
