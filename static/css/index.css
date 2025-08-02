@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Times New Roman', Times, sans-serif;
 }
 
 body {
@@ -22,10 +22,10 @@ body {
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(70, 103, 36, 0.15);
     overflow: hidden;
-    width: 500px;
+    width: 400px;
     max-width: 100%;
     /* margin-left: 3cm; */
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(219, 219, 219, 0.308);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -46,16 +46,16 @@ body {
 
 /* Headers */
 .form-header h2 {
-    color: #b390ff;
+    color: #fcca15bb;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 27px;
     justify-content: center;
     text-align: center;
 }
 
 .form-header p {
-    color: #b680f0;
-    font-size: 14px;
+    color: #fcca15bb;
+    font-size: 16px;
     margin-bottom: 25px;
 }
 
@@ -67,8 +67,8 @@ body {
 .form-label {
     display: block;
     margin-bottom: 6px;
-    font-size: 14px;
-    color: #392467;
+    font-size: 16px;
+    color: #fcca15bb;
 }
 
 .form-control {
@@ -81,15 +81,15 @@ body {
 }
 
 .form-control:focus {
-    border-color: #392467;
-    box-shadow: 0 0 5px rgba(57, 36, 103, 0.3);
+    border-color: #fcca15bb;
+    box-shadow: 0 0 5px rgba(255, 225, 32, 0.694);
 }
 
 /* Checkbox Group */
 .checkbox-group {
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .checkbox-label {
@@ -97,7 +97,7 @@ body {
     align-items: center;
     cursor: pointer;
     user-select: none;
-    color: #392467;
+    color: #fcca15bb;
 }
 
 .checkbox-label input {
@@ -106,7 +106,7 @@ body {
 
 /* Button Styles */
 .btn {
-    background-color: #5D3587;
+    background-color: #c6a628;
     color: white;
     padding: 12px;
     border: none;
@@ -117,7 +117,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #392467;
+    background-color: #b78f0c;
 }
 
 .btn--full-width {
@@ -125,7 +125,7 @@ body {
 }
 
 .btn--primary {
-    background-color: #5D3587;
+    background-color: #fcca15bb;
 }
 
 /* Messages */
@@ -136,7 +136,7 @@ body {
 }
 
 .success-message {
-    color: green;
+    color: rgb(40, 192, 40);
     font-size: 14px;
     margin-top: 12px;
     text-align: center;
@@ -149,7 +149,7 @@ body {
 }
 
 .form-footer .link {
-    color: #A367B1;
+    color: #fcca15bb;
     text-decoration: none;
 }
 
