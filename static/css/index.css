@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:'Times New Roman', Times, sans-serif;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
 body {
@@ -25,7 +25,7 @@ body {
     width: 400px;
     max-width: 100%;
     /* margin-left: 3cm; */
-    background-color: rgba(219, 219, 219, 0.308);
+    background-color: rgba(219, 219, 219, 0.372);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -46,7 +46,7 @@ body {
 
 /* Headers */
 .form-header h2 {
-    color: #fcca15bb;
+    color: #ffd22dd7;
     margin-bottom: 10px;
     font-size: 27px;
     justify-content: center;
@@ -54,9 +54,10 @@ body {
 }
 
 .form-header p {
-    color: #fcca15bb;
+    color: #ffd22dd7;
     font-size: 16px;
     margin-bottom: 25px;
+    font-weight: 600;
 }
 
 /* Form Styles */
@@ -68,7 +69,8 @@ body {
     display: block;
     margin-bottom: 6px;
     font-size: 16px;
-    color: #fcca15bb;
+    color: #ffd22dd7;
+    font-weight: 600;
 }
 
 .form-control {
@@ -81,8 +83,9 @@ body {
 }
 
 .form-control:focus {
-    border-color: #fcca15bb;
+    border-color: #ffd22dd7;
     box-shadow: 0 0 5px rgba(255, 225, 32, 0.694);
+    font-weight: 600;
 }
 
 /* Checkbox Group */
@@ -97,7 +100,8 @@ body {
     align-items: center;
     cursor: pointer;
     user-select: none;
-    color: #fcca15bb;
+    color: #ffd22dd7;
+    font-weight: 600;
 }
 
 .checkbox-label input {
