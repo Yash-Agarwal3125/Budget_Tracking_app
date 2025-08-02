@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Budget Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div id="welcome-message">
+                <h1>Welcome, User!</h1>
+                <p>Your personal finance overview.</p>
+            </div>
+            <button id="logout-button" class="btn btn-logout">Logout</button>
+        </header>
+
+        <section class="summary-cards">
+            <div class="card">
+                <h3>Current Balance</h3>
+                <p id="current-balance" class="amount">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Total Income</h3>
+                <p id="total-income" class="amount income">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>Total Spent</h3>
+                <p id="total-spent" class="amount expense">$0.00</p>
+            </div>
+            <div class="card">
+                <h3>You Are Owed</h3>
+                <p id="total-receivable" class="amount receivable">$0.00</p>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <div class="transaction-form-container">
+                <h2>Add New Transaction</h2>
+                <form id="addTransactionForm">
+                    <div class="form-group">
+                        <input type="text" id="description" placeholder="Description (e.g., Groceries, Salary)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="amount" placeholder="Amount" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="category" placeholder="Category (e.g., Food, Bills)" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="type" required>
+                            <option value="Expense">Expense</option>
+                            <option value="Income">Income</option>
+                            <option value="Payable">Payable (I owe someone)</option>
+                            <option value="Receivable">Receivable (Someone owes me)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="person-involved-group" style="display: none;">
+                        <input type="text" id="person-involved" placeholder="Person's Name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </form>
+            </div>
+
+            <div class="transactions-display-area">
+                <div class="transaction-list-container">
+                    <h2>Debt & Loan Management</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                    <th>Status / Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="debts-table-body">
+                                <!-- Debt transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="transaction-list-container">
+                    <h2>Income & Expense History</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="income-expense-table-body">
+                                <!-- Regular transactions will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
