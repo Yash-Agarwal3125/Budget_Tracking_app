@@ -1,0 +1,217 @@
+/* --- Base Styles & Variables --- */
+:root {
+    --bg-dark: #1a1a1a;
+    --card-bg: #2c2c2c;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-gold: #c9a47e;
+    --income-color: #5cb85c;
+    --expense-color: #d9534f;
+    --payable-color: #f0ad4e;
+    --receivable-color: #5bc0de;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* --- Header --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--card-bg);
+    padding-bottom: 1rem;
+}
+
+.dashboard-header h1 {
+    color: var(--accent-gold);
+    font-weight: 700;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark);
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+.btn-logout {
+    background-color: transparent;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+}
+
+.btn-logout:hover {
+    background-color: var(--accent-gold);
+    color: var(--bg-dark);
+}
+
+.btn-pay {
+    background-color: var(--payable-color);
+    color: #fff;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+}
+
+/* --- Summary Cards --- */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 5px solid var(--accent-gold);
+}
+
+.card h3 {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card .amount {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.card .income { color: var(--income-color); }
+.card .expense { color: var(--expense-color); }
+.card .receivable { color: var(--receivable-color); }
+
+/* --- Main Content Layout --- */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr; /* Give more space to the tables */
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.transactions-display-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* This adds space between the two tables */
+}
+
+/* --- Transaction Form --- */
+.transaction-form-container {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    position: sticky; /* Makes the form stick while scrolling */
+    top: 2rem;
+}
+
+.transaction-form-container h2 {
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--bg-dark);
+    border: 1px solid #444;
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* --- Transaction List --- */
+.transaction-list-container {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.transaction-list-container h2 {
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #444;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+th {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+tbody tr:hover {
+    background-color: #333;
+}
+
+.status-paid {
+    color: var(--income-color);
+    font-weight: 600;
+}
+
+.status-pending {
+    color: var(--payable-color);
+    font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    .transaction-form-container {
+        position: static; /* Unstick the form on smaller screens */
+    }
+}
