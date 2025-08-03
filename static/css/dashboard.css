@@ -9,6 +9,7 @@
     --expense-color: #d9534f;
     --payable-color: #f0ad4e;
     --receivable-color: #5bc0de;
+    --danger-color: #d9534f; /* For reset button */
 }
 
 * {
@@ -45,6 +46,11 @@ body {
     font-weight: 700;
 }
 
+.header-actions {
+    display: flex;
+    gap: 1rem; /* Adds space between buttons */
+}
+
 /* --- Buttons --- */
 .btn {
     padding: 0.7rem 1.5rem;
@@ -73,6 +79,15 @@ body {
 .btn-logout:hover {
     background-color: var(--accent-gold);
     color: var(--bg-dark);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
 }
 
 .btn-pay {
@@ -171,7 +186,10 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* NEW: Styles for scrollable table area */
 .table-wrapper {
+    max-height: 400px; /* Set a max height for the tables */
+    overflow-y: auto;  /* Add a vertical scrollbar only when needed */
     overflow-x: auto;
 }
 
@@ -190,6 +208,9 @@ th, td {
 th {
     color: var(--text-secondary);
     font-weight: 600;
+    position: sticky; /* Makes table headers stick during scroll */
+    top: 0;
+    background-color: var(--card-bg); /* Ensures header is not transparent */
 }
 
 tbody tr:hover {

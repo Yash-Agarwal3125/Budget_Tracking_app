@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- DOM ELEMENT SELECTORS ---
     const welcomeMessageEl = document.getElementById('welcome-message').querySelector('h1');
     const logoutButton = document.getElementById('logout-button');
+    const resetDataButton = document.getElementById('reset-data-button'); // New button
     const balanceEl = document.getElementById('current-balance');
     const incomeEl = document.getElementById('total-income');
     const spentEl = document.getElementById('total-spent');
@@ -27,13 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = "/";
     });
 
+    // New listener for the reset button
+    resetDataButton.addEventListener('click', handleResetData);
+
     typeSelect.addEventListener('change', () => {
         const selectedType = typeSelect.value;
         personInvolvedGroup.style.display = (selectedType === 'Payable' || selectedType === 'Receivable') ? 'block' : 'none';
     });
 
     transactionForm.addEventListener('submit', handleAddTransaction);
-    // Use event delegation on the document to handle all table actions
     document.addEventListener('click', handleTableActions);
 
     // --- CORE FUNCTIONS ---
@@ -45,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const errData = await response.json();
                 throw new Error(errData.error || 'Failed to fetch data');
             }
-
+            
             const data = await response.json();
-
+            
             updateSummaryCards(data.summary);
 
             const debts = data.transactions.filter(tx => tx.type === 'Payable' || tx.type === 'Receivable');
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
-            // Optionally display an error message to the user on the page
+            alert("Error: Could not load dashboard data.");
         }
     }
 
@@ -143,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const errData = await response.json();
                 throw new Error(errData.error || 'Failed to add transaction');
             }
-
+            
             transactionForm.reset();
             personInvolvedGroup.style.display = 'none';
             fetchAndRenderData();
@@ -167,12 +170,40 @@ document.addEventListener('DOMContentLoaded', function() {
                         const errData = await response.json();
                         throw new Error(errData.error || 'Failed to pay debt');
                     }
-
+                    
                     fetchAndRenderData();
                 } catch (error) {
                     console.error("Error paying debt:", error);
                     alert('Failed to pay debt: ' + error.message);
                 }
+            }
+        }
+    }
+
+    // New function to handle the data reset
+    async function handleResetData() {
+        const confirmation = confirm("WARNING: This will permanently delete all of your transaction data. This action cannot be undone. Are you sure you want to continue?");
+        
+        if (confirmation) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/reset_transactions`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userInfo.user_id })
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'Failed to reset data');
+                }
+                
+                // Refresh the dashboard to show the empty state
+                fetchAndRenderData();
+                alert("All your transaction data has been successfully reset.");
+
+            } catch (error) {
+                console.error("Error resetting data:", error);
+                alert('Failed to reset data: ' + error.message);
             }
         }
     }

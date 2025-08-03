@@ -16,7 +16,11 @@
                 <h1>Welcome, User!</h1>
                 <p>Your personal finance overview.</p>
             </div>
-            <button id="logout-button" class="btn btn-logout">Logout</button>
+            <!-- Container for header buttons -->
+            <div class="header-actions">
+                <button id="reset-data-button" class="btn btn-danger">Reset All Data</button>
+                <button id="logout-button" class="btn btn-logout">Logout</button>
+            </div>
         </header>
 
         <section class="summary-cards">
@@ -49,7 +53,8 @@
                         <input type="number" id="amount" placeholder="Amount" step="0.01" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="category" placeholder="Category (e.g., Food, Bills)" required>
+                        <!-- MODIFIED: Removed 'required' and updated placeholder -->
+                        <input type="text" id="category" placeholder="Category (Optional)">
                     </div>
                     <div class="form-group">
                         <select id="type" required>
@@ -69,6 +74,7 @@
             <div class="transactions-display-area">
                 <div class="transaction-list-container">
                     <h2>Debt & Loan Management</h2>
+                    <!-- This wrapper will now have a fixed height and scrollbar -->
                     <div class="table-wrapper">
                         <table>
                             <thead>
@@ -89,6 +95,7 @@
 
                 <div class="transaction-list-container">
                     <h2>Income & Expense History</h2>
+                    <!-- This wrapper will also have a fixed height and scrollbar -->
                     <div class="table-wrapper">
                         <table>
                             <thead>
