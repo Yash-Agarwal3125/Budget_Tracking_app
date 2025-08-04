@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function fetchAndRenderData() {
         try {
-            const response = await fetch(`${API_BASE_URL}/dashboard_data?user_id=${userInfo.user_id}`);
+            const response = await fetch(`${API_BASE_URL}/api/dashboard_data?user_id=${userInfo.user_id}`);
             if (!response.ok) {
                 const errData = await response.json();
                 throw new Error(errData.error || 'Failed to fetch data');
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch(`${API_BASE_URL}/transactions`, {
+            const response = await fetch(`${API_BASE_URL}/api/transactions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newTransaction)
@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const transactionId = e.target.dataset.id;
             if (confirm('Are you sure you want to mark this debt as paid? This will create a new expense transaction.')) {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/pay_debt`, {
+                    const response = await fetch(`${API_BASE_URL}/api/pay_debt`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ transaction_id: transactionId })
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (confirmation) {
             try {
-                const response = await fetch(`${API_BASE_URL}/reset_transactions`, {
+                const response = await fetch(`${API_BASE_URL}/api/reset_transactions`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userInfo.user_id })

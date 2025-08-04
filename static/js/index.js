@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
 
-            fetch(`${API_BASE_URL}/register`, {
+            fetch(`${API_BASE_URL}/api/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
 
-            fetch(`${API_BASE_URL}/login`, {
+            fetch(`${API_BASE_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginData),
