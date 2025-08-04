@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const signupFormElement = document.getElementById('signupFormElement');
 
     // --- API Endpoints ---
-    const API_BASE_URL = 'http://127.0.0.1:5000/api'; // Your Flask server address
+    const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com'; // Your Flask server address
 
     // Form switching functionality
     showSignupLink.addEventListener('click', function(e) {

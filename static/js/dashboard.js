@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const typeSelect = document.getElementById('type');
     const personInvolvedGroup = document.getElementById('person-involved-group');
 
-    const API_BASE_URL = 'http://127.0.0.1:5000/api';
+    const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com';
 
     // --- EVENT LISTENERS ---
     logoutButton.addEventListener('click', () => {
