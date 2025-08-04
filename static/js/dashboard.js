@@ -66,10 +66,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateSummaryCards(summary) {
-        balanceEl.textContent = `$${summary.current_balance.toFixed(2)}`;
-        incomeEl.textContent = `$${summary.total_income.toFixed(2)}`;
-        spentEl.textContent = `$${summary.total_spend.toFixed(2)}`;
-        receivableEl.textContent = `$${summary.total_receivable.toFixed(2)}`;
+        // MODIFIED: Changed currency symbol from $ to Rs.
+        balanceEl.textContent = `Rs.${summary.current_balance.toFixed(2)}`;
+        incomeEl.textContent = `Rs.${summary.total_income.toFixed(2)}`;
+        spentEl.textContent = `Rs.${summary.total_spend.toFixed(2)}`;
+        receivableEl.textContent = `Rs.${summary.total_receivable.toFixed(2)}`;
     }
 
     function renderDebts(debts) {
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formattedDate}</td>
                 <td>${tx.description} (${tx.person_involved || 'N/A'})</td>
                 <td>${tx.type}</td>
-                <td style="${amountStyle}">$${tx.amount.toFixed(2)}</td>
+                <td style="${amountStyle}">Rs.${tx.amount.toFixed(2)}</td>
                 <td>${statusHtml}</td>
             `;
             debtsTableBody.appendChild(row);
@@ -119,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formattedDate}</td>
                 <td>${tx.description}</td>
                 <td>${tx.category_name}</td>
-                <td style="${amountStyle}">${sign} $${tx.amount.toFixed(2)}</td>
+                <td style="${amountStyle}">${sign} Rs.${tx.amount.toFixed(2)}</td>
             `;
             incomeExpenseTableBody.appendChild(row);
         });
@@ -180,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // New function to handle the data reset
     async function handleResetData() {
         const confirmation = confirm("WARNING: This will permanently delete all of your transaction data. This action cannot be undone. Are you sure you want to continue?");
         

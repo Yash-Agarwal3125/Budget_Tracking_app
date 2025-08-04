@@ -127,8 +127,8 @@ def get_dashboard_data():
         #query for getting all transactions for the user, ordered by most recent
         query = "SELECT * FROM transaction WHERE user_id = %s ORDER BY date DESC"
         cursor.execute(query,(user_id,))
-        transactions=cursor.fetchall()
-        
+        transactions_raw = cursor.fetchall()=cursor.fetchall()
+        transactions = [dict(row) for row in transactions_raw]
         #calculating income, spend, payable and receivable for the summary cards
         total_income=sum(t['amount'] for t in transactions if t['type']=='Income')
         total_spend=sum(t['amount'] for t in transactions if t['type']=='Expense')
