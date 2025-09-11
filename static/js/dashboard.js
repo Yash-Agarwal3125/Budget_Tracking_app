@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const typeSelect = document.getElementById('type');
     const personInvolvedGroup = document.getElementById('person-involved-group');
 
-    const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com';
+    const API_BASE_URL = 'http://127.0.0.1:5000/api';
 
     // --- EVENT LISTENERS ---
     logoutButton.addEventListener('click', () => {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function fetchAndRenderData() {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/dashboard_data?user_id=${userInfo.user_id}`);
+            const response = await fetch(`${API_BASE_URL}/dashboard_data?user_id=${userInfo.user_id}`);
             if (!response.ok) {
                 const errData = await response.json();
                 throw new Error(errData.error || 'Failed to fetch data');
@@ -66,11 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateSummaryCards(summary) {
-        // MODIFIED: Changed currency symbol from $ to Rs.
-        balanceEl.textContent = `Rs.${summary.current_balance.toFixed(2)}`;
-        incomeEl.textContent = `Rs.${summary.total_income.toFixed(2)}`;
-        spentEl.textContent = `Rs.${summary.total_spend.toFixed(2)}`;
-        receivableEl.textContent = `Rs.${summary.total_receivable.toFixed(2)}`;
+        balanceEl.textContent = `Rs. ${summary.current_balance.toFixed(2)}`;
+        incomeEl.textContent = `Rs. ${summary.total_income.toFixed(2)}`;
+        spentEl.textContent = `Rs. ${summary.total_spend.toFixed(2)}`;
+        receivableEl.textContent = `Rs. ${summary.total_receivable.toFixed(2)}`;
     }
 
     function renderDebts(debts) {
@@ -96,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formattedDate}</td>
                 <td>${tx.description} (${tx.person_involved || 'N/A'})</td>
                 <td>${tx.type}</td>
-                <td style="${amountStyle}">Rs.${tx.amount.toFixed(2)}</td>
+                <td style="${amountStyle}">Rs. ${tx.amount.toFixed(2)}</td>
                 <td>${statusHtml}</td>
             `;
             debtsTableBody.appendChild(row);
@@ -120,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${formattedDate}</td>
                 <td>${tx.description}</td>
                 <td>${tx.category_name}</td>
-                <td style="${amountStyle}">${sign} Rs.${tx.amount.toFixed(2)}</td>
+                <td style="${amountStyle}">${sign} Rs. ${tx.amount.toFixed(2)}</td>
             `;
             incomeExpenseTableBody.appendChild(row);
         });
@@ -138,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch(`${API_BASE_URL}/api/transactions`, {
+            const response = await fetch(`${API_BASE_URL}/transactions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newTransaction)
@@ -162,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const transactionId = e.target.dataset.id;
             if (confirm('Are you sure you want to mark this debt as paid? This will create a new expense transaction.')) {
                 try {
-                    const response = await fetch(`${API_BASE_URL}/api/pay_debt`, {
+                    const response = await fetch(`${API_BASE_URL}/pay_debt`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ transaction_id: transactionId })
@@ -181,12 +180,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // New function to handle the data reset
     async function handleResetData() {
         const confirmation = confirm("WARNING: This will permanently delete all of your transaction data. This action cannot be undone. Are you sure you want to continue?");
         
         if (confirmation) {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/reset_transactions`, {
+                const response = await fetch(`${API_BASE_URL}/reset_transactions`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userInfo.user_id })
