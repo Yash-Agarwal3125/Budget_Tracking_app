@@ -1,15 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     // --- INITIALIZATION ---
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-    if (!userInfo) {
-        window.location.href = "/"; // Redirect to login if not logged in
+    if (!userInfo || !userInfo.user_id) {
+        localStorage.removeItem('userInfo');
+        window.location.href = "/";
         return;
     }
 
     // --- DOM ELEMENT SELECTORS ---
     const welcomeMessageEl = document.getElementById('welcome-message').querySelector('h1');
     const logoutButton = document.getElementById('logout-button');
-    const resetDataButton = document.getElementById('reset-data-button'); // New button
+    const resetDataButton = document.getElementById('reset-data-button');
     const balanceEl = document.getElementById('current-balance');
     const incomeEl = document.getElementById('total-income');
     const spentEl = document.getElementById('total-spent');
@@ -28,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = "/";
     });
 
-    // New listener for the reset button
     resetDataButton.addEventListener('click', handleResetData);
 
     typeSelect.addEventListener('change', () => {
@@ -46,22 +46,115 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(`${API_BASE_URL}/dashboard_data?user_id=${userInfo.user_id}`);
             if (!response.ok) {
                 const errData = await response.json();
-                throw new Error(errData.error || 'Failed to fetch data');
+                throw new Error(errData.error || 'Failed to fetch dashboard data');
             }
-            
             const data = await response.json();
             
             updateSummaryCards(data.summary);
-
             const debts = data.transactions.filter(tx => tx.type === 'Payable' || tx.type === 'Receivable');
             const incomeExpense = data.transactions.filter(tx => tx.type === 'Income' || tx.type === 'Expense');
-
             renderDebts(debts);
             renderIncomeExpense(incomeExpense);
+
+            renderExpenseChart();
+            renderIncomeExpenseBarChart();
 
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
             alert("Error: Could not load dashboard data.");
+        }
+    }
+
+    async function renderExpenseChart() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/chart_data/expenses_by_category?user_id=${userInfo.user_id}`);
+            if (!response.ok) throw new Error('Failed to fetch pie chart data');
+            const data = await response.json();
+            
+            const ctx = document.getElementById('expenseChart').getContext('2d');
+            if (window.myExpenseChart) window.myExpenseChart.destroy();
+
+            window.myExpenseChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Expenses by Category',
+                        data: data.values,
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                        borderColor: '#dee2e6',
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#495057'
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error rendering expense chart:", error);
+        }
+    }
+
+    async function renderIncomeExpenseBarChart() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/chart_data/monthly_summary?user_id=${userInfo.user_id}`);
+            if (!response.ok) throw new Error('Failed to fetch bar chart data');
+            const data = await response.json();
+
+            const ctx = document.getElementById('incomeExpenseBarChart').getContext('2d');
+            if (window.myBarChart) window.myBarChart.destroy();
+
+            window.myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Income',
+                        data: data.incomeData,
+                        backgroundColor: 'rgba(28, 200, 138, 0.8)',
+                        borderColor: 'rgba(28, 200, 138, 1)',
+                        borderWidth: 1,
+                        maxBarThickness: 40
+                    }, {
+                        label: 'Expense',
+                        data: data.expenseData,
+                        backgroundColor: 'rgba(231, 74, 59, 0.8)',
+                        borderColor: 'rgba(231, 74, 59, 1)',
+                        borderWidth: 1,
+                        maxBarThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => 'Rs. ' + value
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error rendering bar chart:", error);
         }
     }
 
@@ -78,26 +171,20 @@ document.addEventListener('DOMContentLoaded', function() {
             debtsTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No debts or loans to display.</td></tr>';
             return;
         }
-
         debts.forEach(tx => {
             const row = document.createElement('tr');
-            const formattedDate = new Date(tx.date).toLocaleDateString();
-            const amountStyle = tx.type === 'Receivable' ? 'color: var(--receivable-color);' : 'color: var(--payable-color);';
-
             let statusHtml = tx.status;
             if (tx.type === 'Payable' && tx.status === 'Pending') {
                 statusHtml = `<button class="btn btn-pay" data-id="${tx.transaction_id}">Mark as Paid</button>`;
             } else if (tx.status === 'Paid') {
                 statusHtml = `<span class="status-paid">Paid ✔️</span>`;
             }
-
             row.innerHTML = `
-                <td>${formattedDate}</td>
+                <td>${new Date(tx.date).toLocaleDateString()}</td>
                 <td>${tx.description} (${tx.person_involved || 'N/A'})</td>
                 <td>${tx.type}</td>
-                <td style="${amountStyle}">Rs. ${tx.amount.toFixed(2)}</td>
-                <td>${statusHtml}</td>
-            `;
+                <td style="color: ${tx.type === 'Receivable' ? 'var(--receivable-color)' : 'var(--payable-color)'};">Rs. ${tx.amount.toFixed(2)}</td>
+                <td>${statusHtml}</td>`;
             debtsTableBody.appendChild(row);
         });
     }
@@ -108,19 +195,14 @@ document.addEventListener('DOMContentLoaded', function() {
             incomeExpenseTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No income or expense history.</td></tr>';
             return;
         }
-
         transactions.forEach(tx => {
             const row = document.createElement('tr');
-            const formattedDate = new Date(tx.date).toLocaleDateString();
-            const amountStyle = tx.type === 'Income' ? 'color: var(--income-color);' : 'color: var(--expense-color);';
             const sign = tx.type === 'Income' ? '+' : '-';
-
             row.innerHTML = `
-                <td>${formattedDate}</td>
+                <td>${new Date(tx.date).toLocaleDateString()}</td>
                 <td>${tx.description}</td>
                 <td>${tx.category_name}</td>
-                <td style="${amountStyle}">${sign} Rs. ${tx.amount.toFixed(2)}</td>
-            `;
+                <td style="color: ${tx.type === 'Income' ? 'var(--income-color)' : 'var(--expense-color)'};">${sign} Rs. ${tx.amount.toFixed(2)}</td>`;
             incomeExpenseTableBody.appendChild(row);
         });
     }
@@ -135,18 +217,13 @@ document.addEventListener('DOMContentLoaded', function() {
             type: document.getElementById('type').value,
             person_involved: document.getElementById('person-involved').value || null,
         };
-
         try {
             const response = await fetch(`${API_BASE_URL}/transactions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newTransaction)
             });
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error || 'Failed to add transaction');
-            }
-            
+            if (!response.ok) throw new Error((await response.json()).error || 'Failed to add transaction');
             transactionForm.reset();
             personInvolvedGroup.style.display = 'none';
             fetchAndRenderData();
@@ -166,11 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ transaction_id: transactionId })
                     });
-                     if (!response.ok) {
-                        const errData = await response.json();
-                        throw new Error(errData.error || 'Failed to pay debt');
-                    }
-                    
+                    if (!response.ok) throw new Error((await response.json()).error || 'Failed to pay debt');
                     fetchAndRenderData();
                 } catch (error) {
                     console.error("Error paying debt:", error);
@@ -180,27 +253,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // New function to handle the data reset
     async function handleResetData() {
-        const confirmation = confirm("WARNING: This will permanently delete all of your transaction data. This action cannot be undone. Are you sure you want to continue?");
-        
-        if (confirmation) {
+        if (confirm("WARNING: This will permanently delete all transaction data. This action cannot be undone. Continue?")) {
             try {
                 const response = await fetch(`${API_BASE_URL}/reset_transactions`, {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userInfo.user_id })
                 });
-
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'Failed to reset data');
-                }
-                
-                // Refresh the dashboard to show the empty state
+                if (!response.ok) throw new Error((await response.json()).error || 'Failed to reset data');
                 fetchAndRenderData();
-                alert("All your transaction data has been successfully reset.");
-
+                alert("All transaction data has been reset.");
             } catch (error) {
                 console.error("Error resetting data:", error);
                 alert('Failed to reset data: ' + error.message);

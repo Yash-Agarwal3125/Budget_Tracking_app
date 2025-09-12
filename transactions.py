@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from datetime import date
 import mysql.connector
 from database import get_db_connection
+from datetime import datetime, timedelta
 
 # Blueprint for transaction-related API endpoints
 transactions_bp = Blueprint('transactions', __name__)
@@ -146,3 +147,141 @@ def reset_transactions():
     finally:
         cursor.close()
         conn.close()
+
+@transactions_bp.route("/chart_data/expenses_by_category", methods=['GET'])
+def expenses_by_category_chart():
+    """Provides data for the expenses by category pie chart."""
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Database connection failed'}), 500
+
+    cursor = conn.cursor(dictionary=True)
+    try:
+        # Query to sum expense amounts for each category
+        query = """
+            SELECT category_name, SUM(amount) as total
+            FROM transaction
+            WHERE user_id = %s AND type = 'Expense'
+            GROUP BY category_name
+            ORDER BY total DESC
+        """
+        cursor.execute(query, (user_id,))
+        data = cursor.fetchall()
+        
+        # Format data for Chart.js
+        labels = [row['category_name'] for row in data]
+        values = [float(row['total']) for row in data]
+
+        return jsonify({'labels': labels, 'values': values})
+
+    except mysql.connector.Error as err:
+        return jsonify({'error': str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+# ... (keep all your existing routes) ...
+
+# ADD THIS NEW ROUTE AT THE END OF THE FILE, INSIDE THE BLUEPRINT
+
+@transactions_bp.route("/chart_data/income_vs_expense", methods=['GET'])
+def income_vs_expense_chart():
+    """Provides data for the income vs. expense bar chart."""
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Database connection failed'}), 500
+
+    cursor = conn.cursor(dictionary=True)
+    try:
+        # Query to get all transactions for the user
+        query = "SELECT type, amount FROM transaction WHERE user_id = %s"
+        cursor.execute(query, (user_id,))
+        transactions = cursor.fetchall()
+        
+        # Calculate totals in Python
+        total_income = sum(t['amount'] for t in transactions if t['type'] == 'Income')
+        total_expense = sum(t['amount'] for t in transactions if t['type'] == 'Expense')
+
+        # Format data for Chart.js
+        data = {
+            'income': float(total_income),
+            'expense': float(total_expense)
+        }
+        
+        return jsonify(data)
+
+    except mysql.connector.Error as err:
+        return jsonify({'error': str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+@transactions_bp.route("/chart_data/monthly_summary", methods=['GET'])
+def monthly_summary_chart():
+    """Provides income vs. expense data for the last 6 months."""
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Database connection failed'}), 500
+
+    cursor = conn.cursor(dictionary=True)
+    try:
+        # Get the last 6 months' labels (e.g., "Apr", "May", "Jun")
+        labels = []
+        today = datetime.today()
+        for i in range(5, -1, -1):
+            month = today - timedelta(days=i*30)
+            labels.append(month.strftime('%b')) # %b gives short month name
+
+        # SQL query to get monthly sums for the last 6 months
+        six_months_ago = today - timedelta(days=180)
+        query = """
+            SELECT
+                DATE_FORMAT(date, '%Y-%m') AS month,
+                SUM(CASE WHEN type = 'Income' THEN amount ELSE 0 END) AS total_income,
+                SUM(CASE WHEN type = 'Expense' THEN amount ELSE 0 END) AS total_expense
+            FROM transaction
+            WHERE user_id = %s AND date >= %s
+            GROUP BY month
+            ORDER BY month ASC;
+        """
+        cursor.execute(query, (user_id, six_months_ago.strftime('%Y-%m-%d')))
+        results = cursor.fetchall()
+
+        # Create a dictionary for easy lookup
+        data_map = {r['month']: r for r in results}
+
+        # Prepare final data, ensuring all 6 months are present
+        income_data = []
+        expense_data = []
+        for i in range(5, -1, -1):
+            month_key = (today - timedelta(days=i*30)).strftime('%Y-%m')
+            if month_key in data_map:
+                income_data.append(float(data_map[month_key]['total_income']))
+                expense_data.append(float(data_map[month_key]['total_expense']))
+            else:
+                income_data.append(0)
+                expense_data.append(0)
+
+        return jsonify({
+            'labels': labels,
+            'incomeData': income_data,
+            'expenseData': expense_data
+        })
+
+    except mysql.connector.Error as err:
+        return jsonify({'error': str(err)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+

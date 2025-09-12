@@ -235,6 +235,34 @@ a{
     text-decoration: none;
     color:#c9a47e;
 } 
+.analytics-section h2 {
+    color: #c9a47e; /* <-- Change this color value */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.analytics-section h3 {
+    color: #c9a47e; /* <-- Change this color value */
+    margin-left: 1px;
+    margin-bottom: 20px;
+}
+.analytics-section{
+    margin-bottom: 50px;
+}
+.charts-wrapper {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap; /* Allows charts to stack on smaller screens */
+}
+.chart-container {
+    flex: 1; /* Each chart will take up equal space */
+    min-width: 300px; /* Minimum width before wrapping */
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.chart-container canvas {
+    max-height: 325px; 
+}
 
 /* Responsive Design */
 @media (max-width: 1200px) {

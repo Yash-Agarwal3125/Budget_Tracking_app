@@ -84,7 +84,7 @@
                                 </tr>
                             </thead>
                             <tbody id="debts-table-body">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -102,16 +102,37 @@
                                 </tr>
                             </thead>
                             <tbody id="income-expense-table-body">
-                                </tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Analytics Section with Two Charts -->
+        <section class="analytics-section">
+            <h2>Analytics</h2>
+            <div class="charts-wrapper">
+                <div class="chart-container">
+                    <h3>Expenses by Category</h3>
+                    <canvas id="expenseChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Monthly Summary</h3>
+                    <canvas id="incomeExpenseBarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
     </div>
     <footer >
         <p>Made by <a href="https://www.linkedin.com/in/yash-agarwal-40697b28a/">Yash Agarwal</a> & <a href="https://www.linkedin.com/in/kanav-bhardwaj-a7198028a/">Kanav Bhardwaj</a></p>
     </footer>
+
+    <!-- Load Chart.js library first -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Then load your custom dashboard script -->
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>
+
