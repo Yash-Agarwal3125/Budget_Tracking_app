@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const target = document.getElementById(icon.dataset.target);
             const type = target.type === 'password' ? 'text' : 'password';
             target.type = type;
-            icon.textContent = type === 'password' ? '👁️' : '🙈';
+            icon.textContent = type === 'password' ? '🫣' : '🙈';
         });
     });
 
