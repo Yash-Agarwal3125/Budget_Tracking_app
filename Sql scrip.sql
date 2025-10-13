@@ -1,5 +1,5 @@
--- create database budget_tracking_web;
--- use budget_tracking_web;
+create database budget_tracking_web;
+use budget_tracking_web;
 
 create table User(
     user_id int primary key auto_increment,

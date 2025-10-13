@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     showSignupLink.addEventListener('click', function(e) {
         e.preventDefault();
         switchToSignup();
-    });
+    }) ;
 
     showLoginLink.addEventListener('click', function(e) {
         e.preventDefault();
