@@ -1,155 +1,149 @@
-// Authentication App JavaScript
-// Handles form switching, validation, and API communication
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Get DOM elements
+document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
-    const showSignupLink = document.getElementById('show-signup');
-    const showLoginLink = document.getElementById('show-login');
-    const loginFormElement = document.getElementById('loginFormElement');
-    const signupFormElement = document.getElementById('signupFormElement');
+    const forgotForm = document.getElementById('forgot-form');
+    const showSignup = document.getElementById('show-signup');
+    const showLogin = document.getElementById('show-login');
+    const showForgot = document.getElementById('show-forgot');
+    const backToLogin = document.getElementById('back-to-login');
 
     // --- API Endpoints ---
     const API_BASE_URL = 'http://127.0.0.1:5000/api'; // Your Flask server address
+    const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com';
 
-    // Form switching functionality
-    showSignupLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        switchToSignup();
+    // --- Switch Forms ---
+    const switchForm = (from, to) => {
+        from.classList.remove('active');
+        to.classList.add('active');
+    };
+
+    showSignup.addEventListener('click', e => { e.preventDefault(); switchForm(loginForm, signupForm); });
+    showLogin.addEventListener('click', e => { e.preventDefault(); switchForm(signupForm, loginForm); });
+    showForgot.addEventListener('click', e => { e.preventDefault(); switchForm(loginForm, forgotForm); });
+    backToLogin.addEventListener('click', e => { e.preventDefault(); switchForm(forgotForm, loginForm); });
+
+    // --- Password Toggle ---
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+        icon.addEventListener('click', () => {
+            const target = document.getElementById(icon.dataset.target);
+            const type = target.type === 'password' ? 'text' : 'password';
+            target.type = type;
+            icon.textContent = type === 'password' ? '🫣' : '🙈';
+        });
     });
 
-    showLoginLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        switchToLogin();
-    });
-
-    function switchToSignup() {
-        loginForm.classList.remove('active');
-        signupForm.classList.add('active');
-        clearAllErrors();
-        clearAllSuccessMessages();
-        loginFormElement.reset();
-        signupFormElement.reset();
+    // --- Email Validation ---
+    function isValidEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
     }
 
-    function switchToLogin() {
-        signupForm.classList.remove('active');
-        loginForm.classList.add('active');
-        clearAllErrors();
-        clearAllSuccessMessages();
-        loginFormElement.reset();
-        signupFormElement.reset();
-    }
-
-    // --- Signup form submission ---
-    signupFormElement.addEventListener('submit', function(e) {
+    // --- Signup Form ---
+    document.getElementById('signupFormElement').addEventListener('submit', async e => {
         e.preventDefault();
-        
-        const username = document.getElementById('signup-name').value.trim();
+
+        const name = document.getElementById('signup-name').value.trim();
         const email = document.getElementById('signup-email').value.trim();
         const password = document.getElementById('signup-password').value.trim();
         const confirmPassword = document.getElementById('confirm-password').value.trim();
-        
-        clearSignupErrors();
-        
-        let isValid = true;
-        if (!username || !email || !password || password !== confirmPassword) {
-            alert("Please fill all fields correctly.");
-            isValid = false;
+
+        if (!isValidEmail(email)) {
+            showError('signup-email-error', 'Invalid email format');
+            return;
+        }
+        if (password !== confirmPassword) {
+            showError('confirm-password-error', 'Passwords do not match');
+            return;
         }
 
-        if (isValid) {
-            const userData = {
-                username: username,
-                email: email,
-                password: password
-            };
-
-            fetch(`${API_BASE_URL}/register`, {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message) {
-                    showSuccessMessage('signup-success', data.message + ' You can now sign in.');
-                    setTimeout(switchToLogin, 2000);
-                } else {
-                    showError('signup-email-error', data.error || 'An unknown error occurred.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showError('signup-email-error', 'Could not connect to the server.');
+                body: JSON.stringify({ username: name, email, password })
             });
+            const data = await res.json();
+            if (data.message) {
+                showSuccess('signup-success', 'Account created successfully! Redirecting...');
+                setTimeout(() => switchForm(signupForm, loginForm), 2000);
+            } else {
+                showError('signup-email-error', data.error || 'Error creating account.');
+            }
+        } catch {
+            showError('signup-email-error', 'Server connection failed.');
         }
     });
 
-    // --- Login form submission ---
-    loginFormElement.addEventListener('submit', function(e) {
+    // --- Login Form ---
+    document.getElementById('loginFormElement').addEventListener('submit', async e => {
         e.preventDefault();
-        
+
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value.trim();
-        
-        clearLoginErrors();
-        
-        let isValid = true;
-        if (!email || !password) {
-            alert("Please fill all fields.");
-            isValid = false;
+
+        if (!isValidEmail(email)) {
+            showError('login-email-error', 'Invalid email format');
+            return;
         }
 
-        if (isValid) {
-            const loginData = {
-                email: email,
-                password: password
-            };
-
-            fetch(`${API_BASE_URL}/login`, {
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(loginData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // The debugging console.log has been removed from here.
-                if (data.message === 'Login Successful') {
-                    // Save user info to localStorage to use on the dashboard page
-                    localStorage.setItem('userInfo', JSON.stringify({ user_id: data.user_id, username: data.username }));
-                    showSuccessMessage('login-success', 'Login successful! Redirecting...');
-                    // Redirect to the dashboard page
-                    window.location.href = '/dashboard';
-                } else {
-                    showError('login-email-error', data.error || 'Invalid credentials.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showError('login-email-error', 'Could not connect to the server.');
+                body: JSON.stringify({ email, password })
             });
+            const data = await res.json();
+
+            if (data.message === 'Login Successful') {
+                localStorage.setItem('userInfo', JSON.stringify({ user_id: data.user_id, username: data.username }));
+                showSuccess('login-success', 'Login successful! Redirecting...');
+                window.location.href = '/dashboard';
+            } else {
+                showError('login-email-error', data.error || 'Invalid credentials.');
+            }
+        } catch {
+            showError('login-email-error', 'Server connection failed.');
         }
     });
 
-    // --- Utility functions ---
-    function showError(elementId, message) {
-        const errorElement = document.getElementById(elementId);
-        if (errorElement) errorElement.textContent = message;
+    // --- Forgot Password Form ---
+    document.getElementById('forgotFormElement').addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const email = document.getElementById('forgot-email').value.trim();
+        if (!isValidEmail(email)) {
+            showError('forgot-email-error', 'Invalid email format');
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/api/forgot-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await res.json();
+            if (data.message) {
+                showSuccess('forgot-success', data.message);
+            } else {
+                showError('forgot-email-error', data.error || 'Could not send reset link.');
+            }
+        } catch {
+            showError('forgot-email-error', 'Server connection failed.');
+        }
+    });
+
+    // --- Helper Functions ---
+    function showError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = msg;
     }
-    
-    function showSuccessMessage(elementId, message) {
-        const successElement = document.getElementById(elementId);
-        if (successElement) {
-            successElement.textContent = message;
-            successElement.classList.add('show');
-            setTimeout(() => successElement.classList.remove('show'), 5000);
+
+    function showSuccess(id, msg) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = msg;
+            el.style.color = '#5cb85c';
         }
     }
-    
-    function clearLoginErrors() { showError('login-email-error', ''); }
-    function clearSignupErrors() { showError('signup-email-error', ''); }
-    function clearAllErrors() { clearLoginErrors(); clearSignupErrors(); }
-    function clearAllSuccessMessages() { /* ... */ }
 });
