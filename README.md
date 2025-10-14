@@ -2,8 +2,6 @@
 
 A full-stack web application designed to help users gain control over their personal finances through a clean, intuitive, and responsive interface. This application provides a clear overview of financial health by tracking income, expenses, and debts in real-time.
 
-**[➡️ Live Demo Link](https://budget-tracking-mzav.onrender.com)**
-
 ## Table of Contents
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)

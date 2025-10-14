@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const showForgot = document.getElementById('show-forgot');
     const backToLogin = document.getElementById('back-to-login');
 
+    // --- API Endpoints ---
+    const API_BASE_URL = 'http://127.0.0.1:5000/api'; // Your Flask server address
     const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com';
 
     // --- Switch Forms ---

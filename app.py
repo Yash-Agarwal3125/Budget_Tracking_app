@@ -11,7 +11,7 @@ import os
 db_config = {
     'host': os.environ.get('DB_HOST', 'localhost'),
     'user': os.environ.get('DB_USER', 'root'),
-    'password': os.environ.get('DB_PASSWORD', 'Hahalol@29'),
+    'password': os.environ.get('DB_PASSWORD', 'mysql_123'),
     'database': os.environ.get('DB_DATABASE', 'budget_tracking_web')
 }
 
