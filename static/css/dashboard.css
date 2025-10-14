@@ -186,10 +186,9 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* NEW: Styles for scrollable table area */
 .table-wrapper {
-    max-height: 400px; /* Set a max height for the tables */
-    overflow-y: auto;  /* Add a vertical scrollbar only when needed */
+    max-height: 400px;
+    overflow-y: auto;
     overflow-x: auto;
 }
 
@@ -208,9 +207,9 @@ th, td {
 th {
     color: var(--text-secondary);
     font-weight: 600;
-    position: sticky; /* Makes table headers stick during scroll */
+    position: sticky;
     top: 0;
-    background-color: var(--card-bg); /* Ensures header is not transparent */
+    background-color: var(--card-bg);
 }
 
 tbody tr:hover {
@@ -226,22 +225,112 @@ tbody tr:hover {
     color: var(--payable-color);
     font-weight: 600;
 }
-footer {
-    font-size: 16px;
-    color:#c9a47e;
-    text-decoration: none;
-}
-a{
-    text-decoration: none;
-    color:#c9a47e;
-} 
 
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* --- Analytics Section --- */
+.analytics-section {
+    margin-top: 2rem;
+    margin-bottom: 50px;
+}
+
+.analytics-section h2 {
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.charts-wrapper {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.chart-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+}
+
+.chart-container h3 {
+    color: var(--accent-gold);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-container canvas {
+    max-height: 325px;
+}
+
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid var(--card-bg);
+    margin-top: 2rem;
+}
+footer a {
+    text-decoration: none;
+    color: var(--accent-gold);
+}
+
+/* =========================================== */
+/* ========== RESPONSIVE DESIGN ============ */
+/* =========================================== */
+
+/* --- For Tablets (e.g., iPads) --- */
+@media (max-width: 992px) {
     .main-content {
+        /* Stack the form and tables into a single column */
         grid-template-columns: 1fr;
     }
+
     .transaction-form-container {
-        position: static; /* Unstick the form on smaller screens */
+        /* Un-stick the form so it scrolls naturally with the page */
+        position: static;
     }
 }
+
+/* --- For Mobile Phones --- */
+@media (max-width: 768px) {
+    .dashboard-container {
+        /* Reduce padding on the sides for smaller screens */
+        padding: 1rem;
+    }
+
+    .dashboard-header {
+        /* Stack the header elements vertically */
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .card .amount {
+        /* Slightly smaller font size for the card amounts */
+        font-size: 1.75rem;
+    }
+
+    .btn {
+        /* Slightly smaller buttons */
+        padding: 0.6rem 1.2rem;
+    }
+    
+    .transaction-form-container,
+    .transaction-list-container {
+        /* Reduce padding inside the main content blocks */
+        padding: 1.5rem;
+    }
+
+    th, td {
+        /* Reduce padding in table cells to fit more content */
+        padding: 0.75rem;
+    }
+}
+
