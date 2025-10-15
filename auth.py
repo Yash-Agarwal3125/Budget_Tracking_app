@@ -107,7 +107,7 @@ def forgot_password():
         cursor.execute(query, (user['user_id'], token, expires))
         
         # Send the email
-        reset_link = f"http://127.0.0.1:5000/reset-password/{token}" # Use your domain in production
+        reset_link = f"http://127.17.95.10:5000/reset-password/{token}" # Use your domain in production
         msg = Message("Password Reset Request", recipients=[email])
         msg.body = f"Click the following link to reset your password: {reset_link}\nThis link will expire in one hour."
         mail.send(msg)

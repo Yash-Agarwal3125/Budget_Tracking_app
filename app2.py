@@ -26,10 +26,10 @@ def create_app():
     app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
     app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'true').lower() in ['true', 'on', '1']
-    app.config['MAIL_USERNAME'] = os.environ.get('yash.agarwal2023a@vitstudent.ac.in') # Your email address
-    app.config['MAIL_PASSWORD'] = os.environ.get('eqbi jcuy ikxj exwy') # Your email app password
+    app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'yash.agarwal2023a@vitstudent.ac.in') # Your email address
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'eqbi jcuy ikxj exwy') # Your email app password
     app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_DEFAULT_SENDER', app.config['MAIL_USERNAME'])
-    
+
     # Initialize the mail extension
     mail.init_app(app)
 
@@ -43,4 +43,4 @@ def create_app():
 # The main entry point for the application
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
