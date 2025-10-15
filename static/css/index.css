@@ -133,6 +133,7 @@ body {
 
 /* --- Footer Links --- */
 .form-footer {
+    margin-bottom: 20px;
     color: #a0a0a0;
     text-align: center;
     margin-top: 1.5rem;
