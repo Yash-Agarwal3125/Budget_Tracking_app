@@ -66,97 +66,107 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function renderExpenseChart() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/chart_data/expenses_by_category?user_id=${userInfo.user_id}`);
-            if (!response.ok) throw new Error('Failed to fetch pie chart data');
-            const data = await response.json();
-            
-            const ctx = document.getElementById('expenseChart').getContext('2d');
-            if (window.myExpenseChart) window.myExpenseChart.destroy();
+    try {
+        const response = await fetch(`${API_BASE_URL}/chart_data/expenses_by_category?user_id=${userInfo.user_id}`);
+        if (!response.ok) throw new Error('Failed to fetch pie chart data');
+        const data = await response.json();
+        
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        if (window.myExpenseChart) window.myExpenseChart.destroy();
 
-            window.myExpenseChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Expenses by Category',
-                        data: data.values,
-                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-                        borderColor: '#dee2e6',
-                        borderWidth: 2,
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#495057'
-                            }
+        window.myExpenseChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Expenses by Category',
+                    data: data.values,
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                    borderColor: '#dee2e6', 
+                    borderWidth: 3, 
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#dee2e6' 
                         }
                     }
                 }
-            });
-        } catch (error) {
-            console.error("Error rendering expense chart:", error);
-        }
+            }
+        });
+    } catch (error) {
+        console.error("Error rendering expense chart:", error);
     }
+}
 
     async function renderIncomeExpenseBarChart() {
-        try {
-            const response = await fetch(`${API_BASE_URL}/chart_data/monthly_summary?user_id=${userInfo.user_id}`);
-            if (!response.ok) throw new Error('Failed to fetch bar chart data');
-            const data = await response.json();
+    try {
+        const response = await fetch(`${API_BASE_URL}/chart_data/monthly_summary?user_id=${userInfo.user_id}`);
+        if (!response.ok) throw new Error('Failed to fetch bar chart data');
+        const data = await response.json();
 
-            const ctx = document.getElementById('incomeExpenseBarChart').getContext('2d');
-            if (window.myBarChart) window.myBarChart.destroy();
+        const ctx = document.getElementById('incomeExpenseBarChart').getContext('2d');
+        if (window.myBarChart) window.myBarChart.destroy();
 
-            window.myBarChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Income',
-                        data: data.incomeData,
-                        backgroundColor: 'rgba(28, 200, 138, 0.8)',
-                        borderColor: 'rgba(28, 200, 138, 1)',
-                        borderWidth: 1,
-                        maxBarThickness: 40
-                    }, {
-                        label: 'Expense',
-                        data: data.expenseData,
-                        backgroundColor: 'rgba(231, 74, 59, 0.8)',
-                        borderColor: 'rgba(231, 74, 59, 1)',
-                        borderWidth: 1,
-                        maxBarThickness: 40
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: value => 'Rs. ' + value
-                            }
+        window.myBarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Income',
+                    data: data.incomeData,
+                    backgroundColor: 'rgba(28, 200, 138, 0.8)',
+                    borderColor: 'rgba(28, 200, 138, 1)',
+                    borderWidth: 1,
+                    maxBarThickness: 40
+                }, {
+                    label: 'Expense',
+                    data: data.expenseData,
+                    backgroundColor: 'rgba(231, 74, 59, 0.8)',
+                    borderColor: 'rgba(231, 74, 59, 1)',
+                    borderWidth: 1,
+                    maxBarThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#dee2e6', 
+                            callback: value => 'Rs. ' + value
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top'
+                    x: {
+                        ticks: {
+                            color: '#dee2e6' 
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                          
+                           color: '#dee2e6' 
                         }
                     }
                 }
-            });
-        } catch (error) {
-            console.error("Error rendering bar chart:", error);
-        }
+            }
+        });
+    } catch (error) {
+        console.error("Error rendering bar chart:", error);
     }
+}
 
     function updateSummaryCards(summary) {
         balanceEl.textContent = `Rs. ${summary.current_balance.toFixed(2)}`;

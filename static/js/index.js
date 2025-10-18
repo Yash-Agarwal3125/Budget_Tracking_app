@@ -7,7 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const showForgot = document.getElementById('show-forgot');
     const backToLogin = document.getElementById('back-to-login');
 
-    const API_BASE_URL = 'https://budget-tracking-mzav.onrender.com';
+    // --- API Endpoints ---
+    const API_BASE_URL = 'http://127.0.0.1:5000/api'; // For local testing
 
     // --- Switch Forms ---
     const switchForm = (from, to) => {
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/register`, {
+            const res = await fetch(`${API_BASE_URL}/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username: name, email, password })
@@ -85,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/login`, {
+            const res = await fetch(`${API_BASE_URL}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/forgot-password`, {
+            const res = await fetch(`${API_BASE_URL}/forgot-password`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email })
