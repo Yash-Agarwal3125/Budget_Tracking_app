@@ -285,3 +285,14 @@ document.addEventListener('DOMContentLoaded', function() {
     welcomeMessageEl.textContent = `Welcome, ${userInfo.username}!`;
     fetchAndRenderData();
 });
+document.getElementById('add-category-btn').addEventListener('click', () => {
+  const newCategory = prompt("Enter new category name:");
+  if (newCategory) {
+    const categorySelect = document.getElementById('category');
+    const option = document.createElement('option');
+    option.value = newCategory;
+    option.textContent = `🆕 ${newCategory}`;
+    categorySelect.appendChild(option);
+    categorySelect.value = newCategory; // auto-select it
+  }
+});
