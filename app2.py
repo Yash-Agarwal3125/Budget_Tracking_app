@@ -9,6 +9,7 @@ from views import views_bp
 from auth import auth_bp
 from extention import mail
 from transactions import transactions_bp
+from admin_routes import admin_bp
 
 # Global mail instance
 mail = Mail()
@@ -37,6 +38,7 @@ def create_app():
     app.register_blueprint(views_bp)
     app.register_blueprint(auth_bp, url_prefix='/api')
     app.register_blueprint(transactions_bp, url_prefix='/api')
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
 
     return app
 

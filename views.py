@@ -41,3 +41,7 @@ def reset_password_page(token):
     finally:
         cursor.close()
         conn.close()
+@views_bp.route("/admin")
+def admin_dashboard():
+    """Renders the admin dashboard page."""
+    return render_template("admin.html")
