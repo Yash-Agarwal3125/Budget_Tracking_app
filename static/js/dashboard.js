@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const newTransaction = {
             user_id: userInfo.user_id,
-            description: document.getElementById('description').value,
+            description: document.getElementById('description').value || 'No description',
             amount: parseFloat(document.getElementById('amount').value),
             category_name: document.getElementById('category').value,
             type: document.getElementById('type').value,
@@ -291,7 +291,7 @@ document.getElementById('add-category-btn').addEventListener('click', () => {
     const categorySelect = document.getElementById('category');
     const option = document.createElement('option');
     option.value = newCategory;
-    option.textContent = `🆕 ${newCategory}`;
+    option.textContent = `${newCategory}`;
     categorySelect.appendChild(option);
     categorySelect.value = newCategory; // auto-select it
   }

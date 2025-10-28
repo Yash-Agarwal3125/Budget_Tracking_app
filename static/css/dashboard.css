@@ -9,7 +9,7 @@
     --expense-color: #d9534f;
     --payable-color: #f0ad4e;
     --receivable-color: #5bc0de;
-    --danger-color: #d9534f; /* For reset button */
+    --danger-color: #d9534f; 
 }
 
 * {

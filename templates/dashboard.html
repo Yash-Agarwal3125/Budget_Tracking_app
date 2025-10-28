@@ -46,7 +46,7 @@
                 <h2>Add New Transaction</h2>
                 <form id="addTransactionForm">
                     <div class="form-group">
-                        <input type="text" id="description" placeholder="Description (e.g., Groceries, Salary)" required>
+                        <input type="text" id="description" placeholder="Description (e.g., Groceries, Salary)" >
                     </div>
                     <div class="form-group">
                         <input type="number" id="amount" placeholder="Amount" step="0.01" required>
@@ -54,18 +54,18 @@
                     <div class="form-group">
                       <select id="category" required>
                         <option value="" disabled selected>Select Category</option>
-                        <option value="Food">🍔 Food</option>
-                        <option value="Travel">✈️ Travel</option>
-                        <option value="Bills">💡 Bills</option>
-                        <option value="Entertainment">🎬 Entertainment</option>
-                        <option value="Health">💊 Health</option>
-                        <option value="Shopping">🛍️ Shopping</option>
-                        <option value="Rent">🏠 Rent</option>
-                        <option value="Education">📚 Education</option>
-                        <option value="Miscellaneous">🧾 Miscellaneous</option>
+                        <option value="Food">Food</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Health">Health</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Education">Education</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
                       </select>
-                      <button type="button" id="add-category-btn" class="btn btn-secondary">+ Add New Category</button>
                     </div>
+                    <button type="button" id="add-category-btn" class="btn btn-primary" style="margin-bottom: 1rem;">+ Add New Category</button>
                     <div class="form-group">
                         <select id="type" required>
                             <option value="Expense">Expense</option>
