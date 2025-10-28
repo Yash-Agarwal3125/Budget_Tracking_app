@@ -1,0 +1,41 @@
+/* This file adds styles specific to the admin page */
+
+body {
+    background-color: #212529; /* Darker background for admin */
+    color: #f8f9fa;
+}
+
+.dashboard-header {
+    border-bottom: 2px solid #495057;
+}
+
+/* Make links in header look like buttons */
+.header-actions a.btn {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.header-actions a.btn-logout {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.header-actions a.btn-logout:hover {
+    background-color: #0056b3;
+}
+
+/* Style the analytics section */
+.analytics-section h2 {
+    color: #f8f9fa;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #495057;
+    padding-bottom: 10px;
+}
+/* Makes the container span the full width */
+.chart-container-full {
+    width: 100%;
+}

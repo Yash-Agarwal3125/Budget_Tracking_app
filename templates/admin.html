@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div id="welcome-message">
+                <h1>Admin Dashboard</h1>
+                <p>Application-wide overview.</p>
+            </div>
+            <div class="header-actions">
+                <a href="/dashboard" class="btn btn-logout">Back to App</a>
+            </div>
+        </header>
+
+        <section class="summary-cards">
+            <div class="card">
+                <h3>Total Users</h3>
+                <p id="total-users" class="amount">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Transactions</h3>
+                <p id="total-transactions" class="amount">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Income Tracked</h3>
+                <p id="total-income" class="amount income">Rs. 0.00</p>
+            </div>
+            <div class="card">
+                <h3>Total Expense Tracked</h3>
+                <p id="total-expense" class="amount expense">Rs. 0.00</p>
+            </div>
+        </section>
+
+        <section class="analytics-section">
+            <h2>System Analytics</h2>
+            <div class="charts-wrapper">
+                <div class="chart-container">
+                    <h3>Breakdown by Value (Rs.)</h3>
+                        <canvas id="transactionValueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Breakdown by Count (#)</h3>
+                    <canvas id="transactionCountChart"></canvas>
+                </div>
+            </div>
+            <div class="charts-wrapper">
+                <div class="chart-container chart-container-full">
+                    <h3>Transaction Activity (Last 30 Days)</h3>
+                    <canvas id="transactionActivityChart"></canvas>
+                </div>
+            </div>
+        </section>  
+
+        <section class="main-content">
+            <div class="transactions-display-area">
+                <div class="transaction-list-container">
+                    <h2>Latest 50 Transactions (All Users)</h2>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>User</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="latest-transactions-body">
+                                <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>
