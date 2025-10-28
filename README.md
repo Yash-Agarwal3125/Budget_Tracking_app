@@ -1,149 +1,164 @@
-# Personal Budget Tracker
+#  Flask Web Application – Admin & Dashboard Management System
 
-A full-stack web application designed to help users gain control over their personal finances through a clean, intuitive, and responsive interface. This application provides a clear overview of financial health by tracking income, expenses, and debts in real-time.
+A full-featured Flask web application designed with a secure authentication system, database integration, and modern UI for managing users, transactions, and admin operations.  
+It includes a responsive dashboard, well-structured routes, and modular backend logic — making it easy to extend and deploy.
 
-## Table of Contents
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Local Installation](#local-installation)
-- [Deployment](#deployment)
-- [API Endpoints](#api-endpoints)
-- [Future Improvements](#future-improvements)
+---
 
-## Key Features
+## 📁 Project Structure
 
-- **Secure User Authentication:** Ensures user data is private with a robust registration and login system.
-- **Dynamic Financial Dashboard:** At-a-glance overview of key financial metrics:
-    - **Current Balance:** The real-time difference between total income and expenses.
-    - **Financial Summaries:** Cards displaying total income, expenses, and pending debts.
-- **Comprehensive Transaction Management:**
-    - **Log Transactions:** Easily add income, expenses, payables (money you owe), and receivables (money owed to you).
-    - **Categorize Spending:** Assign categories to expenses for better financial analysis (this feature is optional per entry).
-- **Integrated Debt Tracking:**
-    - **Unified View:** A dedicated table shows all pending debts and loans in one place.
-    - **One-Click Settlement:** Mark a "Payable" as paid, which automatically creates a corresponding expense transaction, keeping your books balanced.
-- **User-Centric Interface:**
-    - **Data Reset:** A secure "Reset All Data" option to clear the account for a fresh start.
-    - **Responsive Design:** A seamless experience across desktop, tablet, and mobile devices.
-    - **Infinite Scroll Tables:** Transaction tables are scrollable, preventing page clutter and ensuring a smooth user experience even with extensive data.
-- **Localization:** All currency is displayed in Indian Rupees (Rs.).
-
-## Tech Stack
-
-| Category      | Technology                                                                                                                              |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| **Backend** | ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white) ![Gunicorn](https://img.shields.io/badge/Gunicorn-499848?logo=gunicorn&logoColor=white) |
-| **Frontend** | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black) |
-| **Database** | ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)                                             |
-| **Deployment**| ![Render](https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=white) ![Neon](https://img.shields.io/badge/Neon-0A5653?logo=neon&logoColor=white)                                                     |
-
-## Project Structure
-
-
+```
 .
-├── app.py              # Main Flask application with all backend logic and API routes.
-├── requirements.txt    # Python dependencies for the project.
-├── Sql scrip.sql       # SQL script for initial database schema setup.
-├── static/             # Contains all static assets (CSS, JavaScript).
+├── app.py                # Main application entry point
+├── app2.py               # Additional Flask configuration or version
+├── auth.py               # Handles user authentication & sessions
+├── admin_routes.py       # Admin-related views and logic
+├── database.py           # Database connection and ORM logic
+├── config.py             # Application configuration variables
+├── transactions.py       # Transaction management logic
+├── views.py              # Page rendering and routing
+├── extention.py          # Flask extensions and helpers
+├── requirements.txt      # All dependencies
+├── templates/            # HTML templates for Flask
+│   ├── index.html
+│   ├── dashboard.html
+│   ├── admin.html
+│   └── reset_password.html
+├── static/
 │   ├── css/
-│   │   └── dashboard.css
-│   └── js/
-│       ├── dashboard.js
-│       └── index.js
-└── templates/          # Contains all HTML templates rendered by Flask.
-├── dashboard.html
-└── index.html
+│   ├── js/
+│   └── images/
+├── ER DIAGRAM.pdf        # Database structure documentation
+└── Sql scrip.sql         # SQL script to initialize the database
+```
+
+---
+
+## 🚀 Features
+
+- 🔐 **User Authentication** — Login, signup, and password reset features.  
+- 🧑‍💼 **Admin Panel** — Manage users, view system stats, and access transaction data.  
+- 📊 **Dashboard** — Interactive data visualization and quick summaries.  
+- 💾 **Database Integration** — SQL-based backend with proper ER design.  
+- 🧩 **Modular Codebase** — Clear separation of routes, models, and views.  
+- 🎨 **Responsive Frontend** — Built with custom CSS and JavaScript for smooth UI/UX.  
+- ⚙️ **Configurable Settings** — Centralized configuration via `config.py`.  
+
+---
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|:------|:------------|
+| Backend | Python 3, Flask |
+| Frontend | HTML5, CSS3, JavaScript |
+| Database | SQL (compatible with MySQL/PostgreSQL/SQLite) |
+| Authentication | Flask-Login / JWT (based on code) |
+| Tools | Jinja2 Templates, Flask Extensions |
+
+---
+
+## 🏗️ Installation & Setup
+
+Follow these steps to run the project locally:
+
+### 1️⃣ Clone the repository
+```bash
+git clone https://github.com/yourusername/flask-admin-dashboard.git
+cd flask-admin-dashboard
+```
+
+### 2️⃣ Create a virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate      # On macOS/Linux
+venv\Scripts\activate       # On Windows
+```
+
+### 3️⃣ Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Set up the database
+Import the SQL script provided:
+```bash
+mysql -u root -p < "Sql scrip.sql"
+```
+
+### 5️⃣ Run the application
+```bash
+python app.py
+```
+
+Now open your browser and visit:  
+👉 **http://127.0.0.1:5000/**
+
+---
+
+## 📘 Configuration
+
+You can modify environment variables or configurations in `config.py`:
+
+```python
+class Config:
+    SECRET_KEY = "your_secret_key"
+    SQLALCHEMY_DATABASE_URI = "mysql://user:password@localhost/dbname"
+```
+
+---
+
+## 🧩 Key Modules
+
+| File | Description |
+|------|--------------|
+| `app.py` | Initializes the Flask app and routes |
+| `auth.py` | Manages user login, logout, and registration |
+| `admin_routes.py` | Handles all admin dashboard operations |
+| `transactions.py` | Controls and tracks financial/user transactions |
+| `database.py` | Database connection and ORM setup |
+| `views.py` | Renders templates and handles HTTP requests |
+
+---
+
+## 📸 Screenshots
+
+*(Add screenshots of your dashboard and admin pages here)*  
+You can place them in `/static/images` and reference like:  
+```markdown
+![Dashboard Screenshot](static/images/2.png)
+```
+
+---
+
+## 🧪 Testing
+
+To run tests (if added):
+```bash
+pytest
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!  
+1. Fork the repo  
+2. Create a new branch (`feature/my-feature`)  
+3. Commit changes  
+4. Push and open a Pull Request  
+
+---
 
 
-## Getting Started
 
-Follow these instructions to set up a local development environment.
+## 🧠 Authors
 
-### Prerequisites
+**Developed by Yash Agarwal and Kanav Bhardwaj**  
+💌 Contact: yashagarwal3125@gmail.com    
+🌍 GitHub: [@yashagarwal](https://github.com/Yash-Agarwal3125)  
+🌍 GitHub: [@kanavbhardwaj](https://github.com/kanav29)
 
-- Python 3.10+
-- A database management tool that supports PostgreSQL (e.g., DBeaver, TablePlus).
-- A free account on [Neon](https://neon.tech/) for a cloud-hosted database.
+---
 
-### Local Installation
-
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
-    cd your-repo-name
-    ```
-
-2.  **Set up the Database (Neon):**
-    - Create a new project on Neon to get a free Postgres database.
-    - Connect to this database using your management tool and the provided **External Connection URL**.
-    - Run the SQL commands from `Sql scrip.sql` to create the `User` and `transaction` tables.
-    - Copy the **Database Connection URL** (the one that starts with `postgres://...`).
-
-3.  **Create a Virtual Environment:**
-    ```bash
-    python -m venv .venv
-    source .venv/bin/activate  # On Windows, use: .venv\Scripts\activate
-    ```
-
-4.  **Install Dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-5.  **Set Environment Variables:**
-    - Create a file named `.env` in the root of your project.
-    - Add the following line, pasting the URL you copied from Neon:
-      ```
-      DATABASE_URL='postgres://user:password@host/dbname'
-      ```
-
-6.  **Run the Application:**
-    - You will need to temporarily add the development server back to `app.py`. Add these lines to the end of the file:
-      ```python
-      if __name__ == "__main__":
-          app.run(debug=True, port=5000)
-      ```
-    - Start the Flask server:
-      ```bash
-      python app.py
-      ```
-    - The application will be available at `http://127.0.0.1:5000`.
-
-## Deployment
-
-This application is deployed on Render with a Neon database.
-
-1.  **Database (Neon):** Follow the "Database Setup" steps in the Local Installation section.
-2.  **Application (Render):**
-    - Create a new **Web Service** on Render and connect it to your GitHub repository.
-    - **Configuration:**
-        - **Build Command:** `pip install -r requirements.txt`
-        - **Start Command:** `gunicorn app:app`
-    - **Environment Variables:**
-        - **Key:** `DATABASE_URL`
-        - **Value:** Paste the Connection URL from your Neon database.
-    - Deploy the service.
-
-## API Endpoints
-
-The application exposes the following RESTful API endpoints.
-
-| Method   | Endpoint                  | Description                                            |
-|----------|---------------------------|--------------------------------------------------------|
-| `POST`   | `/api/register`           | Registers a new user.                                  |
-| `POST`   | `/api/login`              | Authenticates a user and returns a user object.        |
-| `GET`    | `/api/dashboard_data`     | Fetches all transaction and summary data for a user.   |
-| `POST`   | `/api/transactions`       | Adds a new transaction.                                |
-| `POST`   | `/api/pay_debt`           | Marks a payable as paid and creates an expense.        |
-| `DELETE` | `/api/reset_transactions` | Deletes all transactions for the authenticated user.   |
-
-## Future Improvements
-
-- [ ] **Data Visualization:** Add charts (e.g., pie chart for expenses by category) to the dashboard.
-- [ ] **Edit/Delete Transactions:** Allow users to modify or remove individual transactions.
-- [ ] **Date Filtering:** Implement filters to view financial data for specific date ranges (e.g., monthly, yearly).
-- [ ] **Category Management:** Allow users to create, edit, and delete their own custom spending categories.
-
+⭐ *If you like this project, don’t forget to star the repository!*
